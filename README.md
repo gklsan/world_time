@@ -4,3 +4,9 @@
     
 - cd world_times
 
+- yarn add bootstrap@4.3.1
+
+- import 'bootstrap/dist/css/bootstrap.css';
+
+- yarn add moment
+  
