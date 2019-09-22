@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+import MomentTimezone from 'moment-timezone';
 
-class TimezoneItem extends Component {
- render(){
-  return (
-      <div>
-       <p> { this.props.item.value} - { this.props.item.abbr}</p>
-      </div>
-  )
- }
+const TimezoneItem = (props) => {
+    const {utc, value, abbr, text} = props.item;
+    return (
+        <div className='mt-3'>
+            { utc[0] && <p className='c-datetime'>{MomentTimezone().tz(utc[0]).format('DD-MM-YYYY hh:mm:ss A')} ({abbr})</p> }
+            <p>{ text }</p>
+            <p>{ utc.join(", ") }</p>
+        </div>
+    )
 }
+
 export default TimezoneItem
