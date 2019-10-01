@@ -1,5 +1,7 @@
 ## World Times
 
+To create new application:
+
 - npx create-react-app world_times
     
 - cd world_times
