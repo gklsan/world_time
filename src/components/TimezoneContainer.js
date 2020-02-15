@@ -1,48 +1,28 @@
-import React, { Component } from 'react';
-import Timezones from '../datas/timezones';
+import React, { useEffect, useState } from 'react';
 import TimezoneItem from "./TimezoneItem";
+import CountriesTimeZones from "countries-and-timezones";
+import { Button, Card, Modal } from 'react-bootstrap'
 
-class TimezoneContainer extends Component {
+const TimezoneContainer = () => {
+  const [countries, setCountries] = useState([])
 
-    state = {
-        timeZones: Timezones
-    };
+  useEffect(_ => {
+    setCountries(CountriesTimeZones.getAllCountries())
+  }, [])
 
-    componentDidMount() {
-        setInterval(
-            () => this.setState({ timezone: this.state.timeZones }),
-            1000
-        );
-    }
+  const countriesList = _ => {
+    return Object.keys(countries).map((key, idx) => {
+      return <Card className="col-md-3 m-3" key={idx}>
+        <TimezoneItem item={countries[key]}></TimezoneItem>
+      </Card>
+    })
+  }
 
-    render() {
-
-        const timezoneItems = this.state.timeZones.map((item, idx) => {
-            return <TimezoneItem key={idx} item={item} className=""></TimezoneItem>
-        });
-
-        let newTimeZoneItems = [];
-        while (timezoneItems.length > 0) {
-            newTimeZoneItems = [...newTimeZoneItems, timezoneItems.splice(0,3)];
-        }
-
-        // const timezoneItems = this.state.timeZones.map((item, idx) => item.utc[0] && <TimezoneItem key={item.value + item.text} item={item}/> );
-        return (
-            newTimeZoneItems.map((items, idx) => {
-                return (
-                    <div key={idx} className="row">
-                        {items.map((item, i) => {
-                            return(
-                                <div key={i} className='card col-3 col-md-3 m-3'>
-                                    {item}
-                                </div>)
-                        })}
-                    </div>
-                )
-            })
-        )
-    }
-
+  return(
+    <div className="row m-auto">
+      {countriesList()}
+    </div>
+  )
 }
 
 export default TimezoneContainer;

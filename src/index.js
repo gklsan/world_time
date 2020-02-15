@@ -8,8 +8,8 @@ import TimezoneContainer from "./components/TimezoneContainer";
 const App = () => {
     return(
         <div className="container">
-            <h1 className="text-uppercase text-center">World Clock</h1>
-            <div className="ml-5">
+            <h1 className="text-uppercase text-center">World Times</h1>
+            <div className="m-3">
                 <TimezoneContainer />
             </div>
         </div>

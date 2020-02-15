@@ -1,6 +1,6 @@
 ## World Times
 
-To create new application:
+### To create new application:
 
 - npx create-react-app world_times
     
@@ -17,4 +17,8 @@ To create new application:
 - Some usfull libraries: `https://github.com/brillout/awesome-react-components`  
 
 - yarn add moment-timezone
+
+
+### Upgrade:
+
 
