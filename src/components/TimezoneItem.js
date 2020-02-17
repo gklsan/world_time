@@ -4,12 +4,12 @@ import { Modal, Button } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 
 const TimezoneItem = (props) => {
-  const {id, name, timezones} = props.item;
+  const {name, timezones} = props.item;
   const [modalShow, setModalShow] = useState(false)
 
   const timeZones = () => {
     let hash = {}
-    timezones.map(tz => {
+    timezones.forEach(tz => {
       const dateTime = MomentTimezone().tz(tz).format('DD-MM-YYYY hh:mm A')
       if(!hash[dateTime]) hash[dateTime] = [];
       hash[dateTime].push(tz)
@@ -48,7 +48,9 @@ const TimezoneItem = (props) => {
 
   return (
     <div className='mt-3'>
-      {<p  onClick={() => setModalShow(true)}>{name}({id})</p>}
+      {
+        <p className="country_name" onClick={() => setModalShow(true)}>{name}</p>
+      }
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
