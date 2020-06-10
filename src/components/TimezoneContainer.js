@@ -1,48 +1,49 @@
-import React, { Component } from 'react';
-import Timezones from '../datas/timezones';
+import React, { useEffect, useState } from 'react';
 import TimezoneItem from "./TimezoneItem";
+import CountriesTimeZones from "countries-and-timezones";
+import SearchBar from './SearchBar'
+import { Card } from 'react-bootstrap'
 
-class TimezoneContainer extends Component {
+const TimezoneContainer = () => {
+  const countriesListWithTimezones = CountriesTimeZones.getAllCountries()
+  const [countries, setCountries] = useState([])
 
-    state = {
-        timeZones: Timezones
-    };
+  const filterObject = (obj, text) =>
+    Object.keys(obj).filter(key =>
+      obj[key].name.toLowerCase().search(text) !== -1
+    ).map(key => obj[key])
 
-    componentDidMount() {
-        setInterval(
-            () => this.setState({ timezone: this.state.timeZones }),
-            1000
-        );
-    }
 
-    render() {
+  const onChangeHandler = (event) => {
+    const text = event.target.value
+    const res = (!text || text === '') ? countriesListWithTimezones : filterObject(countriesListWithTimezones, text)
+    setCountries(res);
+  }
 
-        const timezoneItems = this.state.timeZones.map((item, idx) => {
-            return <TimezoneItem key={idx} item={item} className=""></TimezoneItem>
-        });
+  useEffect(_ => {
+    setCountries(CountriesTimeZones.getAllCountries())
+  }, [])
 
-        let newTimeZoneItems = [];
-        while (timezoneItems.length > 0) {
-            newTimeZoneItems = [...newTimeZoneItems, timezoneItems.splice(0,3)];
-        }
+  const countriesList = _ => {
+    if(countries.length === 0) return <p> Result not found!!!</p>
 
-        // const timezoneItems = this.state.timeZones.map((item, idx) => item.utc[0] && <TimezoneItem key={item.value + item.text} item={item}/> );
-        return (
-            newTimeZoneItems.map((items, idx) => {
-                return (
-                    <div key={idx} className="row">
-                        {items.map((item, i) => {
-                            return(
-                                <div key={i} className='card col-3 col-md-3 m-3'>
-                                    {item}
-                                </div>)
-                        })}
-                    </div>
-                )
-            })
-        )
-    }
+    return Object.keys(countries).map((key, idx) => {
+      return <Card className="col-md-3 m-3" key={idx}>
+        <TimezoneItem item={countries[key]}></TimezoneItem>
+      </Card>
+    })
+  }
 
+  return(
+    <div>
+      <div className="row m-auto">
+        <SearchBar onChangeHandler={onChangeHandler}/>
+      </div>
+      <div className="row m-auto">
+        {countriesList()}
+      </div>
+    </div>
+  )
 }
 
 export default TimezoneContainer;
